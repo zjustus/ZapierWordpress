@@ -6,6 +6,10 @@ Before the first test, run:
 ```bash
 export baseURL={baseURL} loginURL={loginURL} username={username} password={password}
 ```
+- baseURL EX: https://wordpress.org
+- loginURL EX: wp-login.php
+- username EX: jdoe@wordpress.org
+- password EX: qwerty123
 
 ```bash
 # Install dependencies
