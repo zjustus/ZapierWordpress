@@ -13,7 +13,6 @@ const post = require("./resources/post");
 const includeAuthHeaders = (request, z, bundle) => {
   // old
   if (bundle.authData.sessionKey) {
-    if (!bundle.authData.cookies) throw 'error You need more cookies!!';
     request.headers = request.headers || {};
     request.headers['X-WP-Nonce'] = bundle.authData.sessionKey;
     request.headers['Cookie'] = bundle.authData.cookies;
@@ -27,6 +26,11 @@ const includeAuthHeaders = (request, z, bundle) => {
 
 const supressError =  (request, z, bundle) => {
   request.skipThrowForStatus = true;
+
+  if (request.status === 401 || request.status === 403){
+    throw new z.errors.RefreshAuthError();
+  }
+
   return request
 }
 
