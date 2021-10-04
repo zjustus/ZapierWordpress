@@ -6,19 +6,22 @@ const authors = require('./triggers/authors');
 const taxonomys = require('./triggers/taxonomys');
 // const endpoint_types = require('./triggers/endpoint')
 
+//creates
+const medias = require('./creates/media');
+
 // Resources
 const post = require("./resources/post");
 
 //this function adds the required headers to all API calls
 const includeAuthHeaders = (request, z, bundle) => {
-  // old
-  if (bundle.authData.sessionKey) {
-    request.headers = request.headers || {};
-    request.headers['X-WP-Nonce'] = bundle.authData.sessionKey;
-    request.headers['Cookie'] = bundle.authData.cookies;
-    // request.url = bundle.authData.api_root + ((request.url) ? request.url : '');
-  }
-  else{
+  
+  if (!bundle.inputData.isExternal){
+    if (bundle.authData.sessionKey) {
+      request.headers = request.headers || {};
+      request.headers['X-WP-Nonce'] = bundle.authData.sessionKey;
+      request.headers['Cookie'] = bundle.authData.cookies;
+      // request.url = bundle.authData.api_root + ((request.url) ? request.url : '');
+    }
   }
 
   return request;
@@ -57,7 +60,9 @@ module.exports = {
   searches: {},
 
   // If you want your creates to show up, you better include it here!
-  creates: {},
+  creates: {
+    [medias.key]: medias,
+  },
 
   resources: {
     [post.key]: post

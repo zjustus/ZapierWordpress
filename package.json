@@ -1,13 +1,14 @@
 {
   "name": "rtb-wp",
   "description": "A Better but less complete WordPress integration. It can post to all post types.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "Zachary Justus",
   "main": "index.js",
   "scripts": {
     "test": "jest --testTimeout 10000"
   },
   "dependencies": {
+    "form-data": "^4.0.0",
     "zapier-platform-core": "11.1.0"
   },
   "devDependencies": {

@@ -17,9 +17,6 @@ const bundle = {
 describe('RTB Wordpress APP', () => {
 
   it('It should sign in and test credentials', async() => {
-
-    const authData = await appTester(App.authentication.sessionConfig.perform, bundle);
-
     await appTester(App.authentication.sessionConfig.perform, bundle);
 
     const response = await appTester(App.authentication.test, bundle);
@@ -28,6 +25,12 @@ describe('RTB Wordpress APP', () => {
     return response;
   });
 
+  it('Should upload a picture', async () =>{
+    bundle.inputData.imageURL = 'https://i.ytimg.com/vi/QH-HtjFtrk8/sddefault.jpg';
+    const response = await appTester(App.creates.media.operation.perform, bundle);
+    console.log(response);
+    return response;
+  });
 
   // it('should access the "authors" endpoint', async () => {
 
