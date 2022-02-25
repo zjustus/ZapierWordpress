@@ -8,17 +8,26 @@ const postMedia = async (z, bundle) => {
 	Imgrequest.url = bundle.inputData.imageURL;
 	Imgrequest.raw = true;
 	const imageFile = await z.request(Imgrequest);
-	bundle.inputData.isExternal = false; //make sure to reinable the security after external resource has been aquired
+	
 
 	//step 2, compile the needed resources to make a post
 	const imgObj = {};
 	const ZformData = new FormData();
 	let imageName = bundle.inputData.imageURL;
-	imageName = imageName.match(/[^\/]+\.[^.]+$/g)[0];
+
+	// this section is the tricky part, file name. If the file extension is included in the URL use that, otherwise pull it from the "content-type"
+	if (imageName.match(/[^\/]+\.[^.]+$/g)) imageName = imageName.match(/[^\/]+\.[^.]+$/g)[0];
+	else{
+		imageName = imageName.match(/[^\/]+$/g)[0];
+		imageName += '.' + imageFile.getHeader('content-type').match(/[^\/]+$/g)[0];
+	}
+	console.log("Image Name: " + imageName);
 	
 	imgObj.file = await imageFile.body;
 	imgObj.filename = imageName;
 	ZformData.append('file', imgObj.file, imgObj.filename);
+
+	bundle.inputData.isExternal = false; //make sure to reinable the security after external resource has been aquired
 
 	//step 3, upload to wordpress
 	let result = await z.request({
